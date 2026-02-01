@@ -1022,7 +1022,7 @@ function loadSavedResults() {
                     <span class="result-total">${result.total} p</span>
                 </div>
                 <div class="result-meta">
-                    <span class="result-category">${categoryStr} ${result.mode === 'indoor' ? t('indoorShort') : t('outdoorShort')}</span>
+                    <span class="result-category">${categoryStr} (${result.mode === 'indoor' ? t('indoor') : t('outdoor')})</span>
                     <span class="result-datetime">${result.date || ''} ${result.time || ''}</span>
                 </div>
                 <div class="result-details">${detailsStr}</div>
