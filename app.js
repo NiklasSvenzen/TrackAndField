@@ -366,7 +366,10 @@ function createEventCard(event) {
         <span class="event-points" id="points-${event.id}">0 p</span>
     `;
 
-    setTimeout(() => setupInputListeners(event), 0);
+    setTimeout(() => {
+        setupInputListeners(event);
+        setupPointsTap(event.id);
+    }, 0);
     return card;
 }
 
@@ -765,4 +768,29 @@ function getCalculationTooltip(eventId, performance, points) {
     }
 
     return `${points} poäng\n${detail}`;
+}
+
+// Toast notification
+let toastTimeout;
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+    }, 2500);
+}
+
+function setupPointsTap(eventId) {
+    const pointsEl = document.getElementById(`points-${eventId}`);
+    if (pointsEl) {
+        pointsEl.addEventListener('click', () => {
+            const tooltip = pointsEl.getAttribute('title');
+            if (tooltip) {
+                showToast(tooltip);
+            }
+        });
+    }
 }
