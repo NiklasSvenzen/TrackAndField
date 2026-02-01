@@ -9,6 +9,7 @@
 <body>
     <div class="container">
         <header>
+            <button id="aboutBtn" class="about-btn" title="Om appen">?</button>
             <img src="LGIF.jpg" alt="Linköping Friidrott" class="logo">
             <div class="category-selectors">
                 <select id="genderSelect" class="category-select">
@@ -34,6 +35,7 @@
             <div class="total-section">
                 <div class="total-label">Totalpoäng</div>
                 <div id="total-points" class="total-points">0</div>
+                <button id="infoBtn" class="info-btn" title="Hur beräknas dessa värden?">i</button>
             </div>
 
             <div class="actions">
@@ -46,6 +48,35 @@
             <h2>Sparade resultat</h2>
             <div id="results-list"></div>
         </section>
+    </div>
+
+    <!-- Info Modal -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="infoModalClose">&times;</span>
+            <h3>Poängberäkning</h3>
+            <div id="coefficients-list"></div>
+            <p class="modal-link">
+                <a href="https://www.friidrott.se/media/f1cbmh0k/iaaf-scoring-tables-for-combined-events.pdf" target="_blank">
+                    IAAF Scoring Tables (PDF)
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div id="aboutModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="aboutModalClose">&times;</span>
+            <h3>LGIF Mångkamp Poängräknare</h3>
+            <div class="about-info">
+                <img src="EksporreProductionsLogo.jpg" alt="Eksporre Productions" class="about-logo">
+                <p><strong>Version:</strong> 1.0.0</p>
+                <p><strong>Utvecklare:</strong> Eksporre Productions</p>
+                <p><strong>Feedback:</strong> <a href="mailto:niklas.svenzen@gmail.com">niklas.svenzen@gmail.com</a></p>
+                <p class="copyright">&copy; 2024 Eksporre Productions. Alla rättigheter förbehållna.</p>
+            </div>
+        </div>
     </div>
 
     <script src="scoring.js"></script>

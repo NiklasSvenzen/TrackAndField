@@ -234,6 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderEvents();
     setupActions();
     loadSavedResults();
+    setupModals();
 
     // Restore input values after events are rendered
     if (savedState && savedState.values) {
@@ -414,7 +415,9 @@ function setupInputListeners(event) {
                 const seconds = parseFloat(secInput.value.replace(',', '.')) || 0;
                 const totalSeconds = minutes * 60 + seconds;
                 const points = totalSeconds > 0 ? calculatePoints(event.id, totalSeconds) : 0;
-                document.getElementById(`points-${event.id}`).textContent = `${points} p`;
+                const pointsEl = document.getElementById(`points-${event.id}`);
+                pointsEl.textContent = `${points} p`;
+                pointsEl.title = getCalculationTooltip(event.id, totalSeconds, points);
                 updateTotal();
                 saveCurrentState();
             };
@@ -438,7 +441,9 @@ function setupInputListeners(event) {
                 }
 
                 const points = value ? calculatePoints(event.id, value) : 0;
-                document.getElementById(`points-${event.id}`).textContent = `${points} p`;
+                const pointsEl = document.getElementById(`points-${event.id}`);
+                pointsEl.textContent = `${points} p`;
+                pointsEl.title = getCalculationTooltip(event.id, value, points);
                 updateTotal();
                 saveCurrentState();
             });
@@ -671,4 +676,93 @@ function deleteResult(id) {
     const filtered = saved.filter(r => r.id !== id);
     localStorage.setItem('lgif-results', JSON.stringify(filtered));
     loadSavedResults();
+}
+
+// Modal handling
+function setupModals() {
+    const infoModal = document.getElementById('infoModal');
+    const aboutModal = document.getElementById('aboutModal');
+    const infoBtn = document.getElementById('infoBtn');
+    const aboutBtn = document.getElementById('aboutBtn');
+    const infoClose = document.getElementById('infoModalClose');
+    const aboutClose = document.getElementById('aboutModalClose');
+
+    infoBtn.addEventListener('click', () => {
+        updateCoefficientsDisplay();
+        infoModal.classList.add('active');
+    });
+
+    aboutBtn.addEventListener('click', () => {
+        aboutModal.classList.add('active');
+    });
+
+    infoClose.addEventListener('click', () => {
+        infoModal.classList.remove('active');
+    });
+
+    aboutClose.addEventListener('click', () => {
+        aboutModal.classList.remove('active');
+    });
+
+    // Close on backdrop click
+    infoModal.addEventListener('click', (e) => {
+        if (e.target === infoModal) infoModal.classList.remove('active');
+    });
+
+    aboutModal.addEventListener('click', (e) => {
+        if (e.target === aboutModal) aboutModal.classList.remove('active');
+    });
+}
+
+function updateCoefficientsDisplay() {
+    const events = getCurrentEvents();
+    const coefficients = getCoefficients();
+    const container = document.getElementById('coefficients-list');
+
+    const eventNames = {
+        '60m': '60m', '100m': '100m', '200m': '200m', '400m': '400m',
+        '600m': '600m', '800m': '800m', '1000m': '1000m', '1500m': '1500m',
+        '60mH': '60m häck', '80mH': '80m häck', '100mH': '100m häck', '110mH': '110m häck',
+        'highJump': 'Höjdhopp', 'longJump': 'Längdhopp', 'poleVault': 'Stavhopp',
+        'shotPut': 'Kula', 'discus': 'Diskus', 'javelin': 'Spjut'
+    };
+
+    container.innerHTML = events.map(event => {
+        const coef = coefficients[event.id];
+        if (!coef) return '';
+
+        let formula = '';
+        if (coef.type === 'track') {
+            formula = `P = ${coef.a} × (${coef.b} - tid)^${coef.c}`;
+        } else if (coef.type === 'jump') {
+            formula = `P = ${coef.a} × (cm - ${coef.b})^${coef.c}`;
+        } else if (coef.type === 'throw') {
+            formula = `P = ${coef.a} × (m - ${coef.b})^${coef.c}`;
+        }
+
+        return `
+            <div class="coef-item">
+                <div class="coef-name">${eventNames[event.id] || event.name}</div>
+                <div class="coef-formula">${formula}</div>
+            </div>
+        `;
+    }).join('');
+}
+
+function getCalculationTooltip(eventId, performance, points) {
+    const coefficients = getCoefficients();
+    const coef = coefficients[eventId];
+    if (!coef || !performance) return `${points} poäng`;
+
+    let detail = '';
+    if (coef.type === 'track') {
+        detail = `${coef.a} × (${coef.b} - ${performance.toFixed(2)})^${coef.c}`;
+    } else if (coef.type === 'jump') {
+        const cm = performance * 100;
+        detail = `${coef.a} × (${cm.toFixed(0)} - ${coef.b})^${coef.c}`;
+    } else if (coef.type === 'throw') {
+        detail = `${coef.a} × (${performance.toFixed(2)} - ${coef.b})^${coef.c}`;
+    }
+
+    return `${points} poäng\n${detail}`;
 }

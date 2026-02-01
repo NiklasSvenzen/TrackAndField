@@ -317,6 +317,190 @@ main {
     font-size: 0.8rem;
 }
 
+/* About button (top right) */
+header {
+    position: relative;
+}
+
+.about-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s;
+}
+
+.about-btn:hover {
+    background: var(--lgif-red);
+    color: var(--text-primary);
+    border-color: var(--lgif-red);
+}
+
+/* Info button (next to total) */
+.info-btn {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.3);
+    background: transparent;
+    color: rgba(255,255,255,0.7);
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-style: italic;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.info-btn:hover {
+    background: rgba(255,255,255,0.2);
+    color: var(--text-primary);
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 20px;
+    max-width: 400px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    border: 1px solid var(--border-color);
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: var(--text-primary);
+}
+
+.modal-content h3 {
+    margin-bottom: 15px;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+}
+
+.modal-link {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+.modal-link a {
+    color: var(--lgif-red);
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+
+.modal-link a:hover {
+    text-decoration: underline;
+}
+
+/* Coefficients list */
+.coef-item {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.8rem;
+}
+
+.coef-item:last-child {
+    border-bottom: none;
+}
+
+.coef-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 3px;
+}
+
+.coef-formula {
+    color: var(--text-secondary);
+    font-family: monospace;
+    font-size: 0.75rem;
+}
+
+/* About modal */
+.about-logo {
+    display: block;
+    width: 120px;
+    height: auto;
+    margin: 0 auto 15px;
+    border-radius: 8px;
+}
+
+.about-info p {
+    margin: 8px 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.about-info strong {
+    color: var(--text-primary);
+}
+
+.about-info a {
+    color: var(--lgif-red);
+    text-decoration: none;
+}
+
+.about-info a:hover {
+    text-decoration: underline;
+}
+
+.about-info .copyright {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* Event points tooltip */
+.event-points {
+    cursor: help;
+    position: relative;
+}
+
+.event-points[title] {
+    border-bottom: 1px dotted var(--accent-green);
+}
+
 /* Prevent zoom on input focus on iOS */
 @supports (-webkit-touch-callout: none) {
     .event-input,
