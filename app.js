@@ -36,7 +36,7 @@ const translations = {
         infoLink: 'IAAF Scoring Tables (PDF)',
         aboutTooltip: 'Om appen',
         infoTooltip: 'Hur beräknas dessa värden?',
-        langTooltip: 'Change language',
+        langTooltip: 'Byt språk',
         // Event names
         '60m': '60m',
         '100m': '100m',
@@ -58,7 +58,16 @@ const translations = {
         'javelin': 'Spjut',
         // Toast/formula text
         'time': 'tid',
-        'formula': 'Formel'
+        'formula': 'Formel',
+        // Categories
+        'F-12-13': 'F12-13',
+        'F-14-15': 'F14-15',
+        'F-16-17': 'F16-17',
+        'F-senior': 'K (Kvinnor)',
+        'P-12-13': 'P12-13',
+        'P-14-15': 'P14-15',
+        'P-16-17': 'P16-17',
+        'P-senior': 'M (Män)'
     },
     en: {
         girls: 'Girls',
@@ -86,7 +95,7 @@ const translations = {
         infoLink: 'IAAF Scoring Tables (PDF)',
         aboutTooltip: 'About the app',
         infoTooltip: 'How are scores calculated?',
-        langTooltip: 'Sprache ändern',
+        langTooltip: 'Change language',
         // Event names
         '60m': '60m',
         '100m': '100m',
@@ -108,7 +117,16 @@ const translations = {
         'javelin': 'Javelin',
         // Toast/formula text
         'time': 'time',
-        'formula': 'Formula'
+        'formula': 'Formula',
+        // Categories
+        'F-12-13': 'G12-13 (Girls)',
+        'F-14-15': 'G14-15 (Girls)',
+        'F-16-17': 'G16-17 (Girls)',
+        'F-senior': 'W (Women)',
+        'P-12-13': 'B12-13 (Boys)',
+        'P-14-15': 'B14-15 (Boys)',
+        'P-16-17': 'B16-17 (Boys)',
+        'P-senior': 'M (Men)'
     },
     de: {
         girls: 'Mädchen',
@@ -136,7 +154,7 @@ const translations = {
         infoLink: 'IAAF Scoring Tables (PDF)',
         aboutTooltip: 'Über die App',
         infoTooltip: 'Wie werden die Punkte berechnet?',
-        langTooltip: 'Changer de langue',
+        langTooltip: 'Sprache ändern',
         // Event names
         '60m': '60m',
         '100m': '100m',
@@ -158,7 +176,16 @@ const translations = {
         'javelin': 'Speerwurf',
         // Toast/formula text
         'time': 'Zeit',
-        'formula': 'Formel'
+        'formula': 'Formel',
+        // Categories
+        'F-12-13': 'M12-13 (Mädchen)',
+        'F-14-15': 'M14-15 (Mädchen)',
+        'F-16-17': 'M16-17 (Mädchen)',
+        'F-senior': 'F (Frauen)',
+        'P-12-13': 'J12-13 (Jungen)',
+        'P-14-15': 'J14-15 (Jungen)',
+        'P-16-17': 'J16-17 (Jungen)',
+        'P-senior': 'M (Männer)'
     },
     fr: {
         girls: 'Filles',
@@ -186,7 +213,7 @@ const translations = {
         infoLink: 'IAAF Scoring Tables (PDF)',
         aboutTooltip: "À propos de l'application",
         infoTooltip: 'Comment les points sont-ils calculés?',
-        langTooltip: 'Byt språk',
+        langTooltip: 'Changer de langue',
         // Event names
         '60m': '60m',
         '100m': '100m',
@@ -208,7 +235,16 @@ const translations = {
         'javelin': 'Lancer du javelot',
         // Toast/formula text
         'time': 'temps',
-        'formula': 'Formule'
+        'formula': 'Formule',
+        // Categories
+        'F-12-13': 'F12-13 (Filles)',
+        'F-14-15': 'F14-15 (Filles)',
+        'F-16-17': 'F16-17 (Filles)',
+        'F-senior': 'F (Femmes)',
+        'P-12-13': 'G12-13 (Garçons)',
+        'P-14-15': 'G14-15 (Garçons)',
+        'P-16-17': 'G16-17 (Garçons)',
+        'P-senior': 'H (Hommes)'
     }
 };
 
@@ -217,10 +253,11 @@ function t(key) {
 }
 
 function updateUILanguage() {
-    // Update dropdowns
-    const genderSelect = document.getElementById('genderSelect');
-    genderSelect.options[0].text = t('girls');
-    genderSelect.options[1].text = t('boys');
+    // Update category dropdown
+    const categorySelect = document.getElementById('categorySelect');
+    CATEGORIES.forEach((cat, i) => {
+        categorySelect.options[i].text = t(cat);
+    });
 
     // Update mode buttons
     document.getElementById('indoorBtn').textContent = t('indoor');
@@ -452,18 +489,23 @@ const EVENT_CONFIGS = {
 };
 
 let currentMode = 'indoor';
-let currentGender = 'F';
-let currentAge = '14-15';
+let currentCategory = 'F-14-15';
 let eventInputs = {};
 
+const CATEGORIES = ['F-12-13', 'F-14-15', 'F-16-17', 'F-senior', 'P-12-13', 'P-14-15', 'P-16-17', 'P-senior'];
+
 const STATE_KEY = 'lgif-current-state';
+
+// Get gender from category
+function getGenderFromCategory(category) {
+    return category.startsWith('P') ? 'P' : 'F';
+}
 
 // Save current state to localStorage
 function saveCurrentState() {
     const state = {
         mode: currentMode,
-        gender: currentGender,
-        age: currentAge,
+        category: currentCategory,
         values: getEventValues()
     };
     localStorage.setItem(STATE_KEY, JSON.stringify(state));
@@ -476,8 +518,12 @@ function restoreState() {
 
     try {
         const state = JSON.parse(saved);
-        if (state.gender) currentGender = state.gender;
-        if (state.age) currentAge = state.age;
+        // Support old format with gender/age
+        if (state.category) {
+            currentCategory = state.category;
+        } else if (state.gender && state.age) {
+            currentCategory = `${state.gender}-${state.age}`;
+        }
         if (state.mode) currentMode = state.mode;
         return state;
     } catch (e) {
@@ -491,8 +537,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update UI to match restored state
     if (savedState) {
-        document.getElementById('genderSelect').value = currentGender;
-        document.getElementById('ageSelect').value = currentAge;
+        document.getElementById('categorySelect').value = currentCategory;
 
         if (currentMode === 'outdoor') {
             document.getElementById('outdoorBtn').classList.add('active');
@@ -502,7 +547,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setupCategorySelectors();
     setupModeToggle();
-    setScoringGender(currentGender);
+    setScoringGender(getGenderFromCategory(currentCategory));
     renderEvents();
     setupActions();
     loadSavedResults();
@@ -552,21 +597,14 @@ function restoreInputValues(values) {
 }
 
 function setupCategorySelectors() {
-    const genderSelect = document.getElementById('genderSelect');
-    const ageSelect = document.getElementById('ageSelect');
+    const categorySelect = document.getElementById('categorySelect');
 
     // Set initial scoring gender
-    setScoringGender(currentGender);
+    setScoringGender(getGenderFromCategory(currentCategory));
 
-    genderSelect.addEventListener('change', () => {
-        currentGender = genderSelect.value;
-        setScoringGender(currentGender);
-        renderEvents();
-        saveCurrentState();
-    });
-
-    ageSelect.addEventListener('change', () => {
-        currentAge = ageSelect.value;
+    categorySelect.addEventListener('change', () => {
+        currentCategory = categorySelect.value;
+        setScoringGender(getGenderFromCategory(currentCategory));
         renderEvents();
         saveCurrentState();
     });
@@ -598,7 +636,7 @@ function setupModeToggle() {
 }
 
 function getConfigKey() {
-    return `${currentGender}-${currentAge}-${currentMode}`;
+    return `${currentCategory}-${currentMode}`;
 }
 
 function getCurrentEvents() {
@@ -842,9 +880,8 @@ function saveResult(athleteName) {
         }
     });
 
-    const genderLabel = currentGender === 'F' ? 'F' : 'P';
     const eventType = getEventTypeName();
-    const categoryLabel = `${genderLabel}${currentAge} ${eventType}`;
+    const categoryLabel = `${t(currentCategory)} ${eventType}`;
 
     const result = {
         id: Date.now(),
@@ -853,8 +890,7 @@ function saveResult(athleteName) {
         time: new Date().toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' }),
         category: categoryLabel,
         mode: currentMode,
-        gender: currentGender,
-        age: currentAge,
+        savedCategory: currentCategory,
         total: total,
         details: eventDetails,
         values: getEventValues()
@@ -906,16 +942,19 @@ function loadResult(id) {
     const result = saved.find(r => r.id === id);
     if (!result) return;
 
+    // Determine category from saved result (support old and new format)
+    let targetCategory = result.savedCategory;
+    if (!targetCategory && result.gender && result.age) {
+        targetCategory = `${result.gender}-${result.age}`;
+    }
+
     // Switch category if needed
-    if (result.gender && result.gender !== currentGender) {
-        document.getElementById('genderSelect').value = result.gender;
-        currentGender = result.gender;
-        setScoringGender(currentGender);
+    if (targetCategory && targetCategory !== currentCategory) {
+        document.getElementById('categorySelect').value = targetCategory;
+        currentCategory = targetCategory;
+        setScoringGender(getGenderFromCategory(currentCategory));
     }
-    if (result.age && result.age !== currentAge) {
-        document.getElementById('ageSelect').value = result.age;
-        currentAge = result.age;
-    }
+
     if (result.mode !== currentMode) {
         if (result.mode === 'indoor') {
             document.getElementById('indoorBtn').click();
