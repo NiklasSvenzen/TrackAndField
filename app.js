@@ -123,6 +123,53 @@ const EVENT_CONFIGS = {
         { id: 'poleVault', name: 'Stav', inputType: 'distance', placeholder: '3.50' },
         { id: 'javelin', name: 'Spjut 700g', inputType: 'distance', placeholder: '45.00' },
         { id: '1500m', name: '1500m', inputType: 'time600', placeholder: '4:30' }
+    ],
+
+    // ==================== SENIOR ====================
+
+    // Women Senior Indoor: Femkamp/Pentathlon (5 events)
+    'F-senior-indoor': [
+        { id: '60mH', name: '60m häck', inputType: 'time', placeholder: '8.50' },
+        { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.75' },
+        { id: 'shotPut', name: 'Kula 4kg', inputType: 'distance', placeholder: '12.00' },
+        { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '5.80' },
+        { id: '800m', name: '800m', inputType: 'time600', placeholder: '2:10' }
+    ],
+
+    // Women Senior Outdoor: Sjukamp/Heptathlon (7 events)
+    'F-senior-outdoor': [
+        { id: '100mH', name: '100m häck', inputType: 'time', placeholder: '14.00' },
+        { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.75' },
+        { id: 'shotPut', name: 'Kula 4kg', inputType: 'distance', placeholder: '12.00' },
+        { id: '200m', name: '200m', inputType: 'time', placeholder: '24.50' },
+        { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '5.80' },
+        { id: 'javelin', name: 'Spjut 600g', inputType: 'distance', placeholder: '40.00' },
+        { id: '800m', name: '800m', inputType: 'time600', placeholder: '2:10' }
+    ],
+
+    // Men Senior Indoor: Sjukamp/Heptathlon (7 events)
+    'P-senior-indoor': [
+        { id: '60m', name: '60m', inputType: 'time', placeholder: '7.00' },
+        { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '7.00' },
+        { id: 'shotPut', name: 'Kula 7.26kg', inputType: 'distance', placeholder: '14.00' },
+        { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.95' },
+        { id: '60mH', name: '60m häck', inputType: 'time', placeholder: '8.00' },
+        { id: 'poleVault', name: 'Stav', inputType: 'distance', placeholder: '4.50' },
+        { id: '1000m', name: '1000m', inputType: 'time600', placeholder: '2:40' }
+    ],
+
+    // Men Senior Outdoor: Tiokamp/Decathlon (10 events)
+    'P-senior-outdoor': [
+        { id: '100m', name: '100m', inputType: 'time', placeholder: '11.00' },
+        { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '7.00' },
+        { id: 'shotPut', name: 'Kula 7.26kg', inputType: 'distance', placeholder: '14.00' },
+        { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.95' },
+        { id: '400m', name: '400m', inputType: 'time', placeholder: '49.00' },
+        { id: '110mH', name: '110m häck', inputType: 'time', placeholder: '14.50' },
+        { id: 'discus', name: 'Diskus 2kg', inputType: 'distance', placeholder: '40.00' },
+        { id: 'poleVault', name: 'Stav', inputType: 'distance', placeholder: '4.50' },
+        { id: 'javelin', name: 'Spjut 800g', inputType: 'distance', placeholder: '55.00' },
+        { id: '1500m', name: '1500m', inputType: 'time600', placeholder: '4:30' }
     ]
 };
 
