@@ -7,6 +7,8 @@
 // Localization
 let currentLang = localStorage.getItem('lgif-lang') || 'sv';
 
+const LANGUAGES = ['sv', 'en', 'de', 'fr'];
+
 const translations = {
     sv: {
         girls: 'Flickor',
@@ -84,7 +86,7 @@ const translations = {
         infoLink: 'IAAF Scoring Tables (PDF)',
         aboutTooltip: 'About the app',
         infoTooltip: 'How are scores calculated?',
-        langTooltip: 'Byt språk',
+        langTooltip: 'Sprache ändern',
         // Event names
         '60m': '60m',
         '100m': '100m',
@@ -107,6 +109,106 @@ const translations = {
         // Toast/formula text
         'time': 'time',
         'formula': 'Formula'
+    },
+    de: {
+        girls: 'Mädchen',
+        boys: 'Jungen',
+        indoor: 'Halle',
+        outdoor: 'Freiluft',
+        totalPoints: 'Gesamtpunkte',
+        clear: 'Löschen',
+        save: 'Speichern',
+        savedResults: 'Gespeicherte Ergebnisse',
+        noResults: 'Keine gespeicherten Ergebnisse',
+        load: 'Laden',
+        delete: 'Löschen',
+        namePrompt: 'Name des Athleten:',
+        unknown: 'Unbekannt',
+        indoorShort: '(Halle)',
+        outdoorShort: '(Freiluft)',
+        points: 'Punkte',
+        aboutTitle: 'LGIF Mehrkampf Punkterechner',
+        version: 'Version',
+        developer: 'Entwickler',
+        feedback: 'Feedback',
+        copyright: 'Alle Rechte vorbehalten',
+        infoTitle: 'Punkteberechnung',
+        infoLink: 'IAAF Scoring Tables (PDF)',
+        aboutTooltip: 'Über die App',
+        infoTooltip: 'Wie werden die Punkte berechnet?',
+        langTooltip: 'Changer de langue',
+        // Event names
+        '60m': '60m',
+        '100m': '100m',
+        '200m': '200m',
+        '400m': '400m',
+        '600m': '600m',
+        '800m': '800m',
+        '1000m': '1000m',
+        '1500m': '1500m',
+        '60mH': '60m Hürden',
+        '80mH': '80m Hürden',
+        '100mH': '100m Hürden',
+        '110mH': '110m Hürden',
+        'highJump': 'Hochsprung',
+        'longJump': 'Weitsprung',
+        'poleVault': 'Stabhochsprung',
+        'shotPut': 'Kugelstoßen',
+        'discus': 'Diskuswurf',
+        'javelin': 'Speerwurf',
+        // Toast/formula text
+        'time': 'Zeit',
+        'formula': 'Formel'
+    },
+    fr: {
+        girls: 'Filles',
+        boys: 'Garçons',
+        indoor: 'Salle',
+        outdoor: 'Plein air',
+        totalPoints: 'Points totaux',
+        clear: 'Effacer',
+        save: 'Enregistrer',
+        savedResults: 'Résultats enregistrés',
+        noResults: 'Aucun résultat enregistré',
+        load: 'Charger',
+        delete: 'Supprimer',
+        namePrompt: "Nom de l'athlète:",
+        unknown: 'Inconnu',
+        indoorShort: '(Salle)',
+        outdoorShort: '(Ext.)',
+        points: 'points',
+        aboutTitle: 'LGIF Calculateur Épreuves Combinées',
+        version: 'Version',
+        developer: 'Développeur',
+        feedback: 'Commentaires',
+        copyright: 'Tous droits réservés',
+        infoTitle: 'Calcul des points',
+        infoLink: 'IAAF Scoring Tables (PDF)',
+        aboutTooltip: "À propos de l'application",
+        infoTooltip: 'Comment les points sont-ils calculés?',
+        langTooltip: 'Byt språk',
+        // Event names
+        '60m': '60m',
+        '100m': '100m',
+        '200m': '200m',
+        '400m': '400m',
+        '600m': '600m',
+        '800m': '800m',
+        '1000m': '1000m',
+        '1500m': '1500m',
+        '60mH': '60m haies',
+        '80mH': '80m haies',
+        '100mH': '100m haies',
+        '110mH': '110m haies',
+        'highJump': 'Saut en hauteur',
+        'longJump': 'Saut en longueur',
+        'poleVault': 'Saut à la perche',
+        'shotPut': 'Lancer du poids',
+        'discus': 'Lancer du disque',
+        'javelin': 'Lancer du javelot',
+        // Toast/formula text
+        'time': 'temps',
+        'formula': 'Formule'
     }
 };
 
@@ -155,8 +257,8 @@ function updateUILanguage() {
     // Update language button with flag
     const langBtn = document.getElementById('langBtn');
     langBtn.textContent = '';
-    langBtn.classList.remove('flag-sv', 'flag-en');
-    langBtn.classList.add(currentLang === 'sv' ? 'flag-sv' : 'flag-en');
+    langBtn.classList.remove('flag-sv', 'flag-en', 'flag-de', 'flag-fr');
+    langBtn.classList.add(`flag-${currentLang}`);
 
     // Update event names in cards
     const events = getCurrentEvents();
@@ -984,7 +1086,9 @@ function setupPointsTap(eventId) {
 function setupLanguageToggle() {
     const langBtn = document.getElementById('langBtn');
     langBtn.addEventListener('click', () => {
-        currentLang = currentLang === 'sv' ? 'en' : 'sv';
+        const currentIndex = LANGUAGES.indexOf(currentLang);
+        const nextIndex = (currentIndex + 1) % LANGUAGES.length;
+        currentLang = LANGUAGES[nextIndex];
         localStorage.setItem('lgif-lang', currentLang);
         updateUILanguage();
     });

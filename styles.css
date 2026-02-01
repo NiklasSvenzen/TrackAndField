@@ -539,8 +539,8 @@ header {
     border-radius: 50%;
     border: 2px solid var(--border-color);
     background-color: var(--bg-card);
-    background-image: url('Country-Flags-Icons.png');
-    background-size: 500% 500%;
+    background-size: cover;
+    background-position: center;
     cursor: pointer;
     z-index: 10;
     transition: all 0.2s;
@@ -548,15 +548,10 @@ header {
     overflow: hidden;
 }
 
-/* Swedish flag - row 2, col 2 in sprite (0-indexed: 1, 1) */
-.lang-btn.flag-sv {
-    background-position: 25% 25%;
-}
-
-/* UK flag - row 1, col 1 in sprite (0-indexed: 0, 0) */
-.lang-btn.flag-en {
-    background-position: 0% 0%;
-}
+.lang-btn.flag-sv { background-image: url('icon-SE.png'); }
+.lang-btn.flag-en { background-image: url('icon-GB.png'); }
+.lang-btn.flag-de { background-image: url('icon-DE.png'); }
+.lang-btn.flag-fr { background-image: url('icon-FR.png'); }
 
 .lang-btn:hover {
     border-color: var(--lgif-red);
