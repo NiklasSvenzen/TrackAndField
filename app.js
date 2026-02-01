@@ -4,6 +4,117 @@
  * Based on Swedish Athletics Federation (Friidrottsförbundet) rules
  */
 
+// Localization
+let currentLang = localStorage.getItem('lgif-lang') || 'sv';
+
+const translations = {
+    sv: {
+        girls: 'Flickor',
+        boys: 'Pojkar',
+        indoor: 'Inomhus',
+        outdoor: 'Utomhus',
+        totalPoints: 'Totalpoäng',
+        clear: 'Rensa',
+        save: 'Spara',
+        savedResults: 'Sparade resultat',
+        noResults: 'Inga sparade resultat',
+        load: 'Ladda',
+        delete: 'Ta bort',
+        namePrompt: 'Namn på tävlande:',
+        unknown: 'Okänd',
+        indoorShort: '(Inom)',
+        outdoorShort: '(Utom)',
+        points: 'poäng',
+        aboutTitle: 'LGIF Mångkamp Poängräknare',
+        version: 'Version',
+        developer: 'Utvecklare',
+        feedback: 'Feedback',
+        copyright: 'Alla rättigheter förbehållna',
+        infoTitle: 'Poängberäkning',
+        infoLink: 'IAAF Scoring Tables (PDF)',
+        aboutTooltip: 'Om appen',
+        infoTooltip: 'Hur beräknas dessa värden?',
+        langTooltip: 'Change language'
+    },
+    en: {
+        girls: 'Girls',
+        boys: 'Boys',
+        indoor: 'Indoor',
+        outdoor: 'Outdoor',
+        totalPoints: 'Total Points',
+        clear: 'Clear',
+        save: 'Save',
+        savedResults: 'Saved Results',
+        noResults: 'No saved results',
+        load: 'Load',
+        delete: 'Delete',
+        namePrompt: 'Athlete name:',
+        unknown: 'Unknown',
+        indoorShort: '(Indoor)',
+        outdoorShort: '(Outdoor)',
+        points: 'points',
+        aboutTitle: 'LGIF Combined Events Calculator',
+        version: 'Version',
+        developer: 'Developer',
+        feedback: 'Feedback',
+        copyright: 'All rights reserved',
+        infoTitle: 'Score Calculation',
+        infoLink: 'IAAF Scoring Tables (PDF)',
+        aboutTooltip: 'About the app',
+        infoTooltip: 'How are scores calculated?',
+        langTooltip: 'Byt språk'
+    }
+};
+
+function t(key) {
+    return translations[currentLang][key] || key;
+}
+
+function updateUILanguage() {
+    // Update dropdowns
+    const genderSelect = document.getElementById('genderSelect');
+    genderSelect.options[0].text = t('girls');
+    genderSelect.options[1].text = t('boys');
+
+    // Update mode buttons
+    document.getElementById('indoorBtn').textContent = t('indoor');
+    document.getElementById('outdoorBtn').textContent = t('outdoor');
+
+    // Update total section
+    document.querySelector('.total-label').textContent = t('totalPoints');
+
+    // Update action buttons
+    document.getElementById('clearBtn').textContent = t('clear');
+    document.getElementById('saveBtn').textContent = t('save');
+
+    // Update saved results header
+    document.querySelector('.saved-results h2').childNodes[0].textContent = t('savedResults');
+
+    // Update tooltips
+    document.getElementById('aboutBtn').title = t('aboutTooltip');
+    document.getElementById('infoBtn').title = t('infoTooltip');
+    document.getElementById('langBtn').title = t('langTooltip');
+
+    // Update modals
+    document.querySelector('#aboutModal h3').textContent = t('aboutTitle');
+    document.querySelector('#infoModal h3').textContent = t('infoTitle');
+    document.querySelector('.modal-link a').textContent = t('infoLink');
+
+    // Update about info
+    const aboutInfo = document.querySelector('.about-info');
+    const ps = aboutInfo.querySelectorAll('p');
+    ps[0].innerHTML = `<strong>${t('version')}:</strong> 1.0.0`;
+    ps[1].innerHTML = `<strong>${t('developer')}:</strong> Eksporre Productions`;
+    ps[2].innerHTML = `<strong>${t('feedback')}:</strong> <a href="mailto:niklas.svenzen@gmail.com">niklas.svenzen@gmail.com</a>`;
+    ps[3].innerHTML = `&copy; 2024 Eksporre Productions. ${t('copyright')}.`;
+
+    // Update language button
+    document.getElementById('langBtn').textContent = currentLang.toUpperCase();
+
+    // Reload saved results to update text
+    loadSavedResults();
+}
+
 // Event configurations by category
 // Swedish youth combined events structure:
 // - F/P 12-13: Femkamp (5 events)
@@ -235,6 +346,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setupActions();
     loadSavedResults();
     setupModals();
+    setupLanguageToggle();
+    updateUILanguage();
 
     // Restore input values after events are rendered
     if (savedState && savedState.values) {
@@ -524,10 +637,10 @@ function promptAndSave() {
     const total = parseInt(document.getElementById('total-points').textContent) || 0;
     if (total === 0) return;
 
-    const name = prompt('Namn på tävlande:');
+    const name = prompt(t('namePrompt'));
     if (name === null) return; // Cancelled
 
-    saveResult(name.trim() || 'Okänd');
+    saveResult(name.trim() || t('unknown'));
 }
 
 function saveResult(athleteName) {
@@ -595,20 +708,20 @@ function loadSavedResults() {
     }
 
     if (saved.length === 0) {
-        container.innerHTML = '<div class="no-results">Inga sparade resultat</div>';
+        container.innerHTML = `<div class="no-results">${t('noResults')}</div>`;
         return;
     }
 
     container.innerHTML = saved.map(result => `
         <div class="result-item">
             <div class="result-header">
-                <span class="result-date">${result.name || 'Okänd'} - ${result.category || ''} ${result.mode === 'indoor' ? '(Inom)' : '(Utom)'}</span>
+                <span class="result-date">${result.name || t('unknown')} - ${result.category || ''} ${result.mode === 'indoor' ? t('indoorShort') : t('outdoorShort')}</span>
                 <span class="result-total">${result.total} p</span>
             </div>
             <div class="result-details">${result.date} ${result.time} | ${result.details.join(' | ')}</div>
             <div class="result-actions">
-                <button class="result-btn load-btn" onclick="loadResult(${result.id})">Ladda</button>
-                <button class="result-btn delete-btn" onclick="deleteResult(${result.id})">Ta bort</button>
+                <button class="result-btn load-btn" onclick="loadResult(${result.id})">${t('load')}</button>
+                <button class="result-btn delete-btn" onclick="deleteResult(${result.id})">${t('delete')}</button>
             </div>
         </div>
     `).join('');
@@ -770,11 +883,20 @@ function getCalculationTooltip(eventId, performance, points) {
     return `${points} poäng\n${detail}`;
 }
 
-// Toast notification
+// Toast notification - positioned near element
 let toastTimeout;
-function showToast(message) {
+function showToast(message, element) {
     const toast = document.getElementById('toast');
     toast.textContent = message;
+
+    // Position near the element
+    const rect = element.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    toast.style.top = (rect.bottom + scrollTop + 8) + 'px';
+    toast.style.left = (rect.left + rect.width / 2) + 'px';
+    toast.style.transform = 'translateX(-50%)';
+
     toast.classList.add('show');
 
     clearTimeout(toastTimeout);
@@ -786,11 +908,20 @@ function showToast(message) {
 function setupPointsTap(eventId) {
     const pointsEl = document.getElementById(`points-${eventId}`);
     if (pointsEl) {
-        pointsEl.addEventListener('click', () => {
+        pointsEl.addEventListener('click', (e) => {
             const tooltip = pointsEl.getAttribute('title');
             if (tooltip) {
-                showToast(tooltip);
+                showToast(tooltip, pointsEl);
             }
         });
     }
+}
+
+function setupLanguageToggle() {
+    const langBtn = document.getElementById('langBtn');
+    langBtn.addEventListener('click', () => {
+        currentLang = currentLang === 'sv' ? 'en' : 'sv';
+        localStorage.setItem('lgif-lang', currentLang);
+        updateUILanguage();
+    });
 }
