@@ -61,6 +61,13 @@ const translations = {
         // Toast/formula text
         'time': 'tid',
         'formula': 'Formel',
+        // Event types
+        pentathlon: 'Femkamp',
+        hexathlon: 'Sexkamp',
+        heptathlon: 'Sjukamp',
+        octathlon: 'Åttakamp',
+        decathlon: 'Tiokamp',
+        combinedEvents: 'Mångkamp',
         // Categories
         'F-12-13': 'F12-13',
         'F-14-15': 'F14-15',
@@ -122,6 +129,13 @@ const translations = {
         // Toast/formula text
         'time': 'time',
         'formula': 'Formula',
+        // Event types
+        pentathlon: 'Pentathlon',
+        hexathlon: 'Hexathlon',
+        heptathlon: 'Heptathlon',
+        octathlon: 'Octathlon',
+        decathlon: 'Decathlon',
+        combinedEvents: 'Combined Events',
         // Categories
         'F-12-13': 'G12-13 (Girls)',
         'F-14-15': 'G14-15 (Girls)',
@@ -183,6 +197,13 @@ const translations = {
         // Toast/formula text
         'time': 'Zeit',
         'formula': 'Formel',
+        // Event types
+        pentathlon: 'Fünfkampf',
+        hexathlon: 'Sechskampf',
+        heptathlon: 'Siebenkampf',
+        octathlon: 'Achtkampf',
+        decathlon: 'Zehnkampf',
+        combinedEvents: 'Mehrkampf',
         // Categories
         'F-12-13': 'M12-13 (Mädchen)',
         'F-14-15': 'M14-15 (Mädchen)',
@@ -244,6 +265,13 @@ const translations = {
         // Toast/formula text
         'time': 'temps',
         'formula': 'Formule',
+        // Event types
+        pentathlon: 'Pentathlon',
+        hexathlon: 'Hexathlon',
+        heptathlon: 'Heptathlon',
+        octathlon: 'Octathlon',
+        decathlon: 'Décathlon',
+        combinedEvents: 'Épreuves combinées',
         // Categories
         'F-12-13': 'F12-13 (Filles)',
         'F-14-15': 'F14-15 (Filles)',
@@ -692,11 +720,16 @@ function getCurrentEvents() {
 
 function getEventTypeName() {
     const events = getCurrentEvents();
-    const count = events.length;
-    if (count === 5) return 'Femkamp';
-    if (count === 7) return 'Sjukamp';
-    if (count === 10) return 'Tiokamp';
-    return 'Mångkamp';
+    return getEventTypeNameForCount(events.length);
+}
+
+function getEventTypeNameForCount(count) {
+    if (count === 5) return t('pentathlon');
+    if (count === 6) return t('hexathlon');
+    if (count === 7) return t('heptathlon');
+    if (count === 8) return t('octathlon');
+    if (count === 10) return t('decathlon');
+    return t('combinedEvents');
 }
 
 function renderEvents() {
@@ -922,7 +955,7 @@ function saveResult(athleteName) {
         }
 
         if (value) {
-            eventDetails.push(`${event.name}: ${value} (${points}p)`);
+            eventDetails.push({ id: event.id, value, points });
         }
     });
 
@@ -968,19 +1001,34 @@ function loadSavedResults() {
         return;
     }
 
-    container.innerHTML = saved.map(result => `
-        <div class="result-item">
-            <div class="result-header">
-                <span class="result-date">${result.name || t('unknown')} - ${result.category || ''} ${result.mode === 'indoor' ? t('indoorShort') : t('outdoorShort')}</span>
-                <span class="result-total">${result.total} p</span>
+    container.innerHTML = saved.map(result => {
+        // Format details - handle both new format (objects) and old format (strings)
+        const detailsStr = result.details.map(detail => {
+            if (typeof detail === 'object' && detail.id) {
+                return `${t(detail.id)}: ${detail.value} (${detail.points}p)`;
+            }
+            return detail; // Old format - already a string
+        }).join(' | ');
+
+        // Localize category if savedCategory exists
+        const categoryStr = result.savedCategory
+            ? `${t(result.savedCategory)} ${getEventTypeNameForCount(result.details.length)}`
+            : (result.category || '');
+
+        return `
+            <div class="result-item">
+                <div class="result-header">
+                    <span class="result-date">${result.name || t('unknown')} - ${categoryStr} ${result.mode === 'indoor' ? t('indoorShort') : t('outdoorShort')}</span>
+                    <span class="result-total">${result.total} p</span>
+                </div>
+                <div class="result-details">${result.date} ${result.time} | ${detailsStr}</div>
+                <div class="result-actions">
+                    <button class="result-btn load-btn" onclick="loadResult(${result.id})">${t('load')}</button>
+                    <button class="result-btn delete-btn" onclick="deleteResult(${result.id})">${t('delete')}</button>
+                </div>
             </div>
-            <div class="result-details">${result.date} ${result.time} | ${result.details.join(' | ')}</div>
-            <div class="result-actions">
-                <button class="result-btn load-btn" onclick="loadResult(${result.id})">${t('load')}</button>
-                <button class="result-btn delete-btn" onclick="deleteResult(${result.id})">${t('delete')}</button>
-            </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 function loadResult(id) {
