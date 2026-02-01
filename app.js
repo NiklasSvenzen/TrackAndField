@@ -1,12 +1,36 @@
 /**
  * LGIF Mångkamp Score Tracker App
- * Supports multiple age groups and genders
+ * Supports multiple age groups and genders with correct event programs
+ * Based on Swedish Athletics Federation (Friidrottsförbundet) rules
  */
 
 // Event configurations by category
-// Key format: "gender-age-mode" e.g. "F-14-15-indoor"
+// Swedish youth combined events structure:
+// - F/P 12-13: Femkamp (5 events)
+// - F/P 14-15: Femkamp (5 events)
+// - F16-17 Indoor: Femkamp (5 events), Outdoor: Sjukamp/Heptathlon (7 events)
+// - P16-17 Indoor: Sjukamp (7 events), Outdoor: Tiokamp/Decathlon (10 events)
+
 const EVENT_CONFIGS = {
-    // Girls/Women (Flickor)
+    // ==================== FLICKOR (GIRLS) ====================
+
+    // F12-13: Femkamp (5 events)
+    'F-12-13-indoor': [
+        { id: '60mH', name: '60m häck', inputType: 'time', placeholder: '10.50' },
+        { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.25' },
+        { id: 'shotPut', name: 'Kula 2kg', inputType: 'distance', placeholder: '7.00' },
+        { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '3.80' },
+        { id: '600m', name: '600m', inputType: 'time600', placeholder: '2:00' }
+    ],
+    'F-12-13-outdoor': [
+        { id: '60mH', name: '60m häck', inputType: 'time', placeholder: '10.50' },
+        { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.25' },
+        { id: 'shotPut', name: 'Kula 2kg', inputType: 'distance', placeholder: '7.00' },
+        { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '3.80' },
+        { id: '600m', name: '600m', inputType: 'time600', placeholder: '2:00' }
+    ],
+
+    // F14-15: Femkamp (5 events)
     'F-14-15-indoor': [
         { id: '60mH', name: '60m häck', inputType: 'time', placeholder: '9.50' },
         { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.46' },
@@ -21,76 +45,84 @@ const EVENT_CONFIGS = {
         { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '4.50' },
         { id: '600m', name: '600m', inputType: 'time600', placeholder: '1:50' }
     ],
+
+    // F16-17 Indoor: Femkamp (5 events)
     'F-16-17-indoor': [
-        { id: '60mH', name: '60m häck', inputType: 'time', placeholder: '9.00' },
+        { id: '60mH', name: '60m häck 76.2', inputType: 'time', placeholder: '9.00' },
         { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.55' },
         { id: 'shotPut', name: 'Kula 3kg', inputType: 'distance', placeholder: '10.00' },
         { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '5.00' },
         { id: '800m', name: '800m', inputType: 'time600', placeholder: '2:20' }
     ],
+
+    // F16-17 Outdoor: Sjukamp/Heptathlon (7 events)
     'F-16-17-outdoor': [
-        { id: '100mH', name: '100m häck', inputType: 'time', placeholder: '15.00' },
+        { id: '100mH', name: '100m häck 76.2', inputType: 'time', placeholder: '15.00' },
         { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.55' },
-        { id: 'javelin', name: 'Spjut', inputType: 'distance', placeholder: '30.00' },
+        { id: 'shotPut', name: 'Kula 3kg', inputType: 'distance', placeholder: '10.00' },
+        { id: '200m', name: '200m', inputType: 'time', placeholder: '26.00' },
         { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '5.00' },
+        { id: 'javelin', name: 'Spjut 500g', inputType: 'distance', placeholder: '35.00' },
         { id: '800m', name: '800m', inputType: 'time600', placeholder: '2:20' }
     ],
-    'F-12-13-indoor': [
-        { id: '60mH', name: '60m häck', inputType: 'time', placeholder: '10.50' },
+
+    // ==================== POJKAR (BOYS) ====================
+
+    // P12-13: Femkamp (5 events)
+    'P-12-13-indoor': [
+        { id: '60mH', name: '60m häck', inputType: 'time', placeholder: '10.00' },
         { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.30' },
-        { id: 'shotPut', name: 'Kula 2kg', inputType: 'distance', placeholder: '7.00' },
+        { id: 'shotPut', name: 'Kula 3kg', inputType: 'distance', placeholder: '8.00' },
         { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '4.00' },
-        { id: '600m', name: '600m', inputType: 'time600', placeholder: '2:00' }
+        { id: '600m', name: '600m', inputType: 'time600', placeholder: '1:50' }
     ],
-    'F-12-13-outdoor': [
-        { id: '60mH', name: '60m häck', inputType: 'time', placeholder: '10.50' },
+    'P-12-13-outdoor': [
+        { id: '60mH', name: '60m häck', inputType: 'time', placeholder: '10.00' },
         { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.30' },
-        { id: 'shotPut', name: 'Kula 2kg', inputType: 'distance', placeholder: '7.00' },
+        { id: 'shotPut', name: 'Kula 3kg', inputType: 'distance', placeholder: '8.00' },
         { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '4.00' },
-        { id: '600m', name: '600m', inputType: 'time600', placeholder: '2:00' }
+        { id: '600m', name: '600m', inputType: 'time600', placeholder: '1:50' }
     ],
-    // Boys/Men (Pojkar)
+
+    // P14-15: Femkamp (5 events)
     'P-14-15-indoor': [
         { id: '60mH', name: '60m häck', inputType: 'time', placeholder: '9.00' },
         { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.55' },
         { id: 'shotPut', name: 'Kula 4kg', inputType: 'distance', placeholder: '10.00' },
         { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '5.00' },
-        { id: '600m', name: '600m', inputType: 'time600', placeholder: '1:40' }
+        { id: '1000m', name: '1000m', inputType: 'time600', placeholder: '3:00' }
     ],
     'P-14-15-outdoor': [
         { id: '80mH', name: '80m häck', inputType: 'time', placeholder: '11.50' },
         { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.55' },
         { id: 'javelin', name: 'Spjut', inputType: 'distance', placeholder: '35.00' },
         { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '5.00' },
-        { id: '600m', name: '600m', inputType: 'time600', placeholder: '1:40' }
+        { id: '1000m', name: '1000m', inputType: 'time600', placeholder: '3:00' }
     ],
+
+    // P16-17 Indoor: Sjukamp/Heptathlon (7 events)
     'P-16-17-indoor': [
-        { id: '60mH', name: '60m häck', inputType: 'time', placeholder: '8.50' },
-        { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.70' },
+        { id: '60m', name: '60m', inputType: 'time', placeholder: '7.50' },
+        { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '5.80' },
         { id: 'shotPut', name: 'Kula 5kg', inputType: 'distance', placeholder: '12.00' },
-        { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '5.50' },
+        { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.75' },
+        { id: '60mH', name: '60m häck 91.4', inputType: 'time', placeholder: '8.50' },
+        { id: 'poleVault', name: 'Stav', inputType: 'distance', placeholder: '3.50' },
         { id: '1000m', name: '1000m', inputType: 'time600', placeholder: '2:50' }
     ],
+
+    // P16-17 Outdoor: Tiokamp/Decathlon (10 events)
     'P-16-17-outdoor': [
-        { id: '110mH', name: '110m häck', inputType: 'time', placeholder: '15.50' },
-        { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.70' },
-        { id: 'javelin', name: 'Spjut', inputType: 'distance', placeholder: '45.00' },
-        { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '5.50' },
-        { id: '1000m', name: '1000m', inputType: 'time600', placeholder: '2:50' }
-    ],
-    'P-12-13-indoor': [
-        { id: '60mH', name: '60m häck', inputType: 'time', placeholder: '10.00' },
-        { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.35' },
-        { id: 'shotPut', name: 'Kula 3kg', inputType: 'distance', placeholder: '8.00' },
-        { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '4.20' },
-        { id: '600m', name: '600m', inputType: 'time600', placeholder: '1:50' }
-    ],
-    'P-12-13-outdoor': [
-        { id: '60mH', name: '60m häck', inputType: 'time', placeholder: '10.00' },
-        { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.35' },
-        { id: 'shotPut', name: 'Kula 3kg', inputType: 'distance', placeholder: '8.00' },
-        { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '4.20' },
-        { id: '600m', name: '600m', inputType: 'time600', placeholder: '1:50' }
+        { id: '100m', name: '100m', inputType: 'time', placeholder: '11.50' },
+        { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '5.80' },
+        { id: 'shotPut', name: 'Kula 5kg', inputType: 'distance', placeholder: '12.00' },
+        { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.75' },
+        { id: '400m', name: '400m', inputType: 'time', placeholder: '52.00' },
+        { id: '110mH', name: '110m häck 91.4', inputType: 'time', placeholder: '15.50' },
+        { id: 'discus', name: 'Diskus 1.5kg', inputType: 'distance', placeholder: '35.00' },
+        { id: 'poleVault', name: 'Stav', inputType: 'distance', placeholder: '3.50' },
+        { id: 'javelin', name: 'Spjut 700g', inputType: 'distance', placeholder: '45.00' },
+        { id: '1500m', name: '1500m', inputType: 'time600', placeholder: '4:30' }
     ]
 };
 
@@ -157,6 +189,15 @@ function getConfigKey() {
 function getCurrentEvents() {
     const key = getConfigKey();
     return EVENT_CONFIGS[key] || EVENT_CONFIGS['F-14-15-indoor'];
+}
+
+function getEventTypeName() {
+    const events = getCurrentEvents();
+    const count = events.length;
+    if (count === 5) return 'Femkamp';
+    if (count === 7) return 'Sjukamp';
+    if (count === 10) return 'Tiokamp';
+    return 'Mångkamp';
 }
 
 function renderEvents() {
@@ -363,8 +404,9 @@ function saveResult(athleteName) {
         }
     });
 
-    const genderLabel = currentGender === 'F' ? 'Flickor' : 'Pojkar';
-    const categoryLabel = `${genderLabel} ${currentAge}`;
+    const genderLabel = currentGender === 'F' ? 'F' : 'P';
+    const eventType = getEventTypeName();
+    const categoryLabel = `${genderLabel}${currentAge} ${eventType}`;
 
     const result = {
         id: Date.now(),
@@ -430,6 +472,7 @@ function loadResult(id) {
     if (result.gender && result.gender !== currentGender) {
         document.getElementById('genderSelect').value = result.gender;
         currentGender = result.gender;
+        setScoringGender(currentGender);
     }
     if (result.age && result.age !== currentAge) {
         document.getElementById('ageSelect').value = result.age;
