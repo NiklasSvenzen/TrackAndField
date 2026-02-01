@@ -13,13 +13,15 @@
 
 const SCORING_COEFFICIENTS = {
     // Indoor events - 60m hurdles (76.2cm height for F15)
-    '60mH': { a: 20.5173, b: 17.0, c: 1.81, type: 'track' },
+    // Adjusted to match Swedish youth tables
+    '60mH': { a: 21.0572, b: 17.0, c: 1.81, type: 'track' },
 
     // Outdoor events - 80m hurdles
     '80mH': { a: 9.23076, b: 26.7, c: 1.835, type: 'track' },
 
     // Common events
-    '600m': { a: 0.11193, b: 254, c: 1.88, type: 'track' },
+    // 600m: Swedish youth supplementary table
+    '600m': { a: 0.134113, b: 200, c: 1.88, type: 'track' },
     // High jump: input in meters, converted to cm for formula
     'highJump': { a: 1.84523, b: 75.0, c: 1.348, type: 'field', unit: 'cm' },
     // Long jump: input in meters, converted to cm for formula
