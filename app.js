@@ -297,7 +297,7 @@ function updateUILanguage() {
     langBtn.classList.remove('flag-sv', 'flag-en', 'flag-de', 'flag-fr');
     langBtn.classList.add(`flag-${currentLang}`);
 
-    // Update event names in cards
+    // Update event names and point tooltips in cards
     const events = getCurrentEvents();
     events.forEach(event => {
         const card = document.querySelector(`[data-event-id="${event.id}"]`);
@@ -306,6 +306,37 @@ function updateUILanguage() {
             if (nameEl) {
                 nameEl.textContent = getEventDisplayName(event);
             }
+        }
+
+        // Update point tooltip with current language
+        const pointsEl = document.getElementById(`points-${event.id}`);
+        if (pointsEl) {
+            const points = parseInt(pointsEl.textContent) || 0;
+            let performance = null;
+
+            if (event.inputType === 'time600') {
+                const minInput = document.getElementById(`input-${event.id}-min`);
+                const secInput = document.getElementById(`input-${event.id}-sec`);
+                if (minInput && secInput) {
+                    const minutes = parseInt(minInput.value) || 0;
+                    const seconds = parseFloat(secInput.value.replace(',', '.')) || 0;
+                    performance = minutes * 60 + seconds;
+                    if (performance === 0) performance = null;
+                }
+            } else {
+                const input = document.getElementById(`input-${event.id}`);
+                if (input && input.value) {
+                    if (event.inputType === 'time') {
+                        performance = parseTime(input.value);
+                    } else if (event.inputType === 'height') {
+                        performance = parseDistance(input.value, true);
+                    } else {
+                        performance = parseDistance(input.value, false);
+                    }
+                }
+            }
+
+            pointsEl.title = getCalculationTooltip(event.id, performance, points);
         }
     });
 
