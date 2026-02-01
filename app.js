@@ -38,11 +38,13 @@ const EVENT_CONFIGS = {
         { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '4.50' },
         { id: '600m', name: '600m', inputType: 'time600', placeholder: '1:50' }
     ],
+    // F14-15 Outdoor: Sexkamp (6 events)
     'F-14-15-outdoor': [
         { id: '80mH', name: '80m häck', inputType: 'time', placeholder: '12.50' },
         { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.46' },
-        { id: 'javelin', name: 'Spjut', inputType: 'distance', placeholder: '25.00' },
+        { id: 'shotPut', name: 'Kula 3kg', inputType: 'distance', placeholder: '8.50' },
         { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '4.50' },
+        { id: 'javelin', name: 'Spjut', inputType: 'distance', placeholder: '25.00' },
         { id: '600m', name: '600m', inputType: 'time600', placeholder: '1:50' }
     ],
 
@@ -92,11 +94,15 @@ const EVENT_CONFIGS = {
         { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '5.00' },
         { id: '1000m', name: '1000m', inputType: 'time600', placeholder: '3:00' }
     ],
+    // P14-15 Outdoor: Åttakamp (8 events)
     'P-14-15-outdoor': [
         { id: '80mH', name: '80m häck', inputType: 'time', placeholder: '11.50' },
         { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.55' },
-        { id: 'javelin', name: 'Spjut', inputType: 'distance', placeholder: '35.00' },
+        { id: 'shotPut', name: 'Kula 4kg', inputType: 'distance', placeholder: '10.00' },
         { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '5.00' },
+        { id: 'discus', name: 'Diskus 1kg', inputType: 'distance', placeholder: '30.00' },
+        { id: 'poleVault', name: 'Stav', inputType: 'distance', placeholder: '2.80' },
+        { id: 'javelin', name: 'Spjut', inputType: 'distance', placeholder: '35.00' },
         { id: '1000m', name: '1000m', inputType: 'time600', placeholder: '3:00' }
     ],
 
