@@ -286,7 +286,10 @@ function updateUILanguage() {
     // Update about info
     const aboutInfo = document.querySelector('.about-info');
     const ps = aboutInfo.querySelectorAll('p');
-    ps[0].innerHTML = `<strong>${t('version')}:</strong> 1.0.0`;
+    const versionStr = typeof VERSION_INFO !== 'undefined'
+        ? `${VERSION_INFO.version} (${VERSION_INFO.build})`
+        : '1.0.0';
+    ps[0].innerHTML = `<strong>${t('version')}:</strong> ${versionStr}`;
     ps[1].innerHTML = `<strong>${t('developer')}:</strong> Eksporre Productions`;
     ps[2].innerHTML = `<strong>${t('feedback')}:</strong> <a href="mailto:niklas.svenzen@gmail.com">niklas.svenzen@gmail.com</a>`;
     ps[3].innerHTML = `&copy; 2026 Eksporre Productions. ${t('copyright')}.`;
