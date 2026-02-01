@@ -153,7 +153,10 @@ function updateUILanguage() {
     ps[3].innerHTML = `&copy; 2026 Eksporre Productions. ${t('copyright')}.`;
 
     // Update language button with flag
-    document.getElementById('langBtn').textContent = currentLang === 'sv' ? '🇸🇪' : '🇬🇧';
+    const langBtn = document.getElementById('langBtn');
+    langBtn.textContent = '';
+    langBtn.classList.remove('flag-sv', 'flag-en');
+    langBtn.classList.add(currentLang === 'sv' ? 'flag-sv' : 'flag-en');
 
     // Update event names in cards
     const events = getCurrentEvents();

@@ -538,16 +538,24 @@ header {
     height: 28px;
     border-radius: 50%;
     border: 2px solid var(--border-color);
-    background: var(--bg-card);
-    font-size: 1rem;
+    background-color: var(--bg-card);
+    background-image: url('Country-Flags-Icons.png');
+    background-size: 500% 500%;
     cursor: pointer;
     z-index: 10;
     transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     padding: 0;
-    line-height: 1;
+    overflow: hidden;
+}
+
+/* Swedish flag - row 2, col 2 in sprite (0-indexed: 1, 1) */
+.lang-btn.flag-sv {
+    background-position: 25% 25%;
+}
+
+/* UK flag - row 1, col 1 in sprite (0-indexed: 0, 0) */
+.lang-btn.flag-en {
+    background-position: 0% 0%;
 }
 
 .lang-btn:hover {
