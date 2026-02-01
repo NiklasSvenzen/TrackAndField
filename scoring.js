@@ -22,7 +22,7 @@ const MEN_COEFFICIENTS = {
 
     // Hurdles
     '60mH': { a: 20.5173, b: 15.50, c: 1.92, type: 'track' },
-    '80mH': { a: 20.5173, b: 15.50, c: 1.92, type: 'track' }, // Use 60mH as approximation
+    '80mH': { a: 11.1075, b: 20.70, c: 1.92, type: 'track' }, // Youth outdoor 80m hurdles
     '110mH': { a: 5.74352, b: 28.50, c: 1.92, type: 'track' },
 
     // Jumps (measurement in cm)
@@ -50,7 +50,7 @@ const WOMEN_COEFFICIENTS = {
 
     // Hurdles
     '60mH': { a: 20.0479, b: 17.00, c: 1.835, type: 'track' },
-    '80mH': { a: 9.23076, b: 26.70, c: 1.835, type: 'track' }, // Same as 100mH for youth
+    '80mH': { a: 12.9828, b: 21.90, c: 1.835, type: 'track' }, // Youth outdoor 80m hurdles
     '100mH': { a: 9.23076, b: 26.70, c: 1.835, type: 'track' },
 
     // Jumps (measurement in cm)
