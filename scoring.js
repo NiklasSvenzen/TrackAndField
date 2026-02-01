@@ -1,27 +1,44 @@
 /**
- * F15 Pentathlon Scoring Calculator
+ * LGIF Mångkamp Scoring Calculator
  * Based on World Athletics Combined Events Scoring Tables
+ * With Swedish youth supplementary tables for 600m, 1000m
  *
  * Track events: Points = A × (B - Performance)^C
  * Field events: Points = A × (Performance - B)^C
  *
  * Performance units:
  * - Running: seconds
- * - Jumps: meters
+ * - Jumps: meters (converted to cm internally for some events)
  * - Throws: meters
  */
 
 const SCORING_COEFFICIENTS = {
-    // Official IAAF/World Athletics coefficients for women's combined events
+    // === HURDLES ===
 
-    // Indoor 60m hurdles
+    // Indoor 60m hurdles (women)
     '60mH': { a: 20.0479, b: 17.00, c: 1.835, type: 'track' },
 
-    // Outdoor 100m hurdles (80m häck uses same formula structure)
+    // 80m hurdles (youth)
     '80mH': { a: 9.23076, b: 26.7, c: 1.835, type: 'track' },
+
+    // 100m hurdles (women)
+    '100mH': { a: 9.23076, b: 26.7, c: 1.835, type: 'track' },
+
+    // 110m hurdles (men)
+    '110mH': { a: 5.74352, b: 28.5, c: 1.92, type: 'track' },
+
+    // === RUNNING ===
 
     // 600m: Swedish youth supplementary table
     '600m': { a: 0.264892, b: 176.6, c: 1.85, type: 'track' },
+
+    // 800m (women)
+    '800m': { a: 0.11193, b: 254.0, c: 1.88, type: 'track' },
+
+    // 1000m: Swedish youth supplementary table (estimated from 800m/1500m)
+    '1000m': { a: 0.08713, b: 305.5, c: 1.85, type: 'track' },
+
+    // === JUMPS ===
 
     // High jump (B in cm)
     'highJump': { a: 1.84523, b: 75.0, c: 1.348, type: 'field', unit: 'cm' },
@@ -29,7 +46,9 @@ const SCORING_COEFFICIENTS = {
     // Long jump (B in cm)
     'longJump': { a: 0.188807, b: 210.0, c: 1.41, type: 'field', unit: 'cm' },
 
-    // Shot put (B in m)
+    // === THROWS ===
+
+    // Shot put (B in m) - same formula, different implement weights by age
     'shotPut': { a: 56.0211, b: 1.50, c: 1.05, type: 'field', unit: 'm' },
 
     // Javelin (B in m)

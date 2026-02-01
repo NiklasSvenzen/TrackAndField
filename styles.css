@@ -9,7 +9,7 @@ body {
     background: #1a1a2e;
     color: #eee;
     min-height: 100vh;
-    padding: 8px 12px;
+    padding: 0;
 }
 
 .container {
@@ -17,30 +17,57 @@ body {
     margin: 0 auto;
 }
 
-header {
-    text-align: center;
-    margin-bottom: 10px;
+/* Logo header */
+.logo {
+    width: 100%;
+    height: 50px;
+    object-fit: cover;
+    object-position: left center;
 }
 
-h1 {
-    font-size: 1.3rem;
-    margin-bottom: 8px;
+header {
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+/* Category selectors */
+.category-selectors {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    padding: 6px 12px;
+    background: rgba(0,0,0,0.2);
+}
+
+.category-select {
+    padding: 5px 10px;
+    border: 2px solid #4a4a6a;
+    border-radius: 6px;
+    background: #1a1a2e;
     color: #fff;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.category-select:focus {
+    outline: none;
+    border-color: #7dd87d;
 }
 
 .mode-toggle {
     display: flex;
     gap: 6px;
     justify-content: center;
+    padding: 6px 12px;
 }
 
 .mode-btn {
-    padding: 6px 16px;
+    padding: 5px 14px;
     border: 2px solid #4a4a6a;
     background: transparent;
     color: #aaa;
     border-radius: 6px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     cursor: pointer;
     transition: all 0.2s;
 }
@@ -51,16 +78,20 @@ h1 {
     border-color: #6a6a8a;
 }
 
+main {
+    padding: 0 10px;
+}
+
 /* Compact single-line event cards */
 .event-card {
     background: #252542;
     border-radius: 8px;
-    padding: 8px 12px;
-    margin-bottom: 6px;
+    padding: 7px 10px;
+    margin-bottom: 5px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
+    gap: 6px;
 }
 
 .event-header {
@@ -68,22 +99,22 @@ h1 {
 }
 
 .event-name {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    min-width: 85px;
+    min-width: 80px;
 }
 
 .event-points {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
     color: #7dd87d;
-    min-width: 55px;
+    min-width: 50px;
     text-align: right;
 }
 
 .event-input-row {
     display: flex;
-    gap: 4px;
+    gap: 3px;
     align-items: center;
 }
 
@@ -94,18 +125,18 @@ h1 {
 }
 
 .input-group label {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: #aaa;
 }
 
 .event-input {
-    width: 52px;
-    padding: 8px 4px;
+    width: 48px;
+    padding: 6px 3px;
     border: 2px solid #4a4a6a;
-    border-radius: 6px;
+    border-radius: 5px;
     background: #1a1a2e;
     color: #fff;
-    font-size: 1rem;
+    font-size: 0.95rem;
     text-align: center;
 }
 
@@ -116,34 +147,34 @@ h1 {
 
 .event-input::placeholder {
     color: #555;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
 }
 
 .event-unit {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: #888;
-    min-width: 14px;
+    min-width: 12px;
 }
 
 .total-section {
     background: linear-gradient(135deg, #2d5a2d, #1a3a1a);
-    border-radius: 10px;
-    padding: 12px;
+    border-radius: 8px;
+    padding: 10px;
     text-align: center;
-    margin: 10px 0;
+    margin: 8px 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 10px;
 }
 
 .total-label {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #aaa;
 }
 
 .total-points {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 800;
     color: #7dd87d;
 }
@@ -151,15 +182,15 @@ h1 {
 .actions {
     display: flex;
     gap: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .action-btn {
     flex: 1;
-    padding: 10px;
+    padding: 8px;
     border: none;
-    border-radius: 8px;
-    font-size: 0.9rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
     transition: transform 0.1s, opacity 0.2s;
@@ -182,12 +213,12 @@ h1 {
 /* Collapsible saved results */
 .saved-results {
     border-top: 1px solid #333;
-    padding-top: 10px;
+    padding: 8px 10px;
 }
 
 .saved-results h2 {
-    font-size: 0.95rem;
-    margin-bottom: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
     color: #888;
     cursor: pointer;
     display: flex;
@@ -197,7 +228,7 @@ h1 {
 
 .saved-results h2::before {
     content: '▼';
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     transition: transform 0.2s;
 }
 
@@ -211,46 +242,46 @@ h1 {
 
 .result-item {
     background: #252542;
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 6px;
+    border-radius: 6px;
+    padding: 8px;
+    margin-bottom: 5px;
 }
 
 .result-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
 }
 
 .result-date {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: #888;
 }
 
 .result-total {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
     color: #7dd87d;
 }
 
 .result-details {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: #aaa;
-    line-height: 1.4;
+    line-height: 1.3;
 }
 
 .result-actions {
     display: flex;
-    gap: 6px;
-    margin-top: 6px;
+    gap: 5px;
+    margin-top: 5px;
 }
 
 .result-btn {
-    padding: 6px 10px;
+    padding: 5px 8px;
     border: none;
-    border-radius: 5px;
-    font-size: 0.8rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
     cursor: pointer;
 }
 
@@ -267,13 +298,14 @@ h1 {
 .no-results {
     color: #666;
     text-align: center;
-    padding: 12px;
-    font-size: 0.85rem;
+    padding: 10px;
+    font-size: 0.8rem;
 }
 
 /* Prevent zoom on input focus on iOS */
 @supports (-webkit-touch-callout: none) {
-    .event-input {
+    .event-input,
+    .category-select {
         font-size: 16px;
     }
 }

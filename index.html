@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>F15 Femkamp Poängräknare</title>
+    <title>LGIF Mångkamp Poängräknare</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>F15 Femkamp</h1>
+            <img src="LGIF.jpg" alt="Linköping Friidrott" class="logo">
+            <div class="category-selectors">
+                <select id="genderSelect" class="category-select">
+                    <option value="F">Flickor</option>
+                    <option value="P">Pojkar</option>
+                </select>
+                <select id="ageSelect" class="category-select">
+                    <option value="12-13">12-13</option>
+                    <option value="14-15" selected>14-15</option>
+                    <option value="16-17">16-17</option>
+                </select>
+            </div>
             <div class="mode-toggle">
                 <button id="indoorBtn" class="mode-btn active">Inomhus</button>
                 <button id="outdoorBtn" class="mode-btn">Utomhus</button>
@@ -26,7 +37,7 @@
 
             <div class="actions">
                 <button id="clearBtn" class="action-btn clear-btn">Rensa</button>
-                <button id="saveBtn" class="action-btn save-btn">Spara resultat</button>
+                <button id="saveBtn" class="action-btn save-btn">Spara</button>
             </div>
         </main>
 
