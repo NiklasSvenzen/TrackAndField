@@ -1018,10 +1018,14 @@ function loadSavedResults() {
         return `
             <div class="result-item">
                 <div class="result-header">
-                    <span class="result-date">${result.name || t('unknown')} - ${categoryStr} ${result.mode === 'indoor' ? t('indoorShort') : t('outdoorShort')}</span>
+                    <span class="result-name">${result.name || t('unknown')}</span>
                     <span class="result-total">${result.total} p</span>
                 </div>
-                <div class="result-details">${result.date} ${result.time} | ${detailsStr}</div>
+                <div class="result-meta">
+                    <span class="result-category">${categoryStr} ${result.mode === 'indoor' ? t('indoorShort') : t('outdoorShort')}</span>
+                    <span class="result-datetime">${result.date || ''} ${result.time || ''}</span>
+                </div>
+                <div class="result-details">${detailsStr}</div>
                 <div class="result-actions">
                     <button class="result-btn load-btn" onclick="loadResult(${result.id})">${t('load')}</button>
                     <button class="result-btn delete-btn" onclick="deleteResult(${result.id})">${t('delete')}</button>

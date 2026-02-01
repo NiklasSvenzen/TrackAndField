@@ -280,18 +280,35 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 3px;
+    margin-bottom: 2px;
 }
 
-.result-date {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
+.result-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
 }
 
 .result-total {
     font-size: 1rem;
     font-weight: 700;
     color: var(--accent-green);
+}
+
+.result-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+    font-size: 0.7rem;
+}
+
+.result-category {
+    color: var(--text-secondary);
+}
+
+.result-datetime {
+    color: var(--text-muted);
 }
 
 .result-details {
