@@ -184,14 +184,97 @@ let currentGender = 'F';
 let currentAge = '14-15';
 let eventInputs = {};
 
+const STATE_KEY = 'lgif-current-state';
+
+// Save current state to localStorage
+function saveCurrentState() {
+    const state = {
+        mode: currentMode,
+        gender: currentGender,
+        age: currentAge,
+        values: getEventValues()
+    };
+    localStorage.setItem(STATE_KEY, JSON.stringify(state));
+}
+
+// Restore state from localStorage
+function restoreState() {
+    const saved = localStorage.getItem(STATE_KEY);
+    if (!saved) return false;
+
+    try {
+        const state = JSON.parse(saved);
+        if (state.gender) currentGender = state.gender;
+        if (state.age) currentAge = state.age;
+        if (state.mode) currentMode = state.mode;
+        return state;
+    } catch (e) {
+        return false;
+    }
+}
+
 // Initialize app
 document.addEventListener('DOMContentLoaded', () => {
+    const savedState = restoreState();
+
+    // Update UI to match restored state
+    if (savedState) {
+        document.getElementById('genderSelect').value = currentGender;
+        document.getElementById('ageSelect').value = currentAge;
+
+        if (currentMode === 'outdoor') {
+            document.getElementById('outdoorBtn').classList.add('active');
+            document.getElementById('indoorBtn').classList.remove('active');
+        }
+    }
+
     setupCategorySelectors();
     setupModeToggle();
+    setScoringGender(currentGender);
     renderEvents();
     setupActions();
     loadSavedResults();
+
+    // Restore input values after events are rendered
+    if (savedState && savedState.values) {
+        restoreInputValues(savedState.values);
+    }
 });
+
+function restoreInputValues(values) {
+    setTimeout(() => {
+        const events = getCurrentEvents();
+
+        events.forEach(event => {
+            const value = values[event.id];
+            if (!value) return;
+
+            if (event.inputType === 'time600') {
+                const parts = value.split(':');
+                if (parts.length === 2) {
+                    const minInput = document.getElementById(`input-${event.id}-min`);
+                    const secInput = document.getElementById(`input-${event.id}-sec`);
+                    if (minInput) minInput.value = parts[0];
+                    if (secInput) secInput.value = parts[1];
+                }
+            } else {
+                const input = document.getElementById(`input-${event.id}`);
+                if (input) input.value = value;
+            }
+        });
+
+        // Trigger recalculation
+        events.forEach(event => {
+            const input = document.getElementById(`input-${event.id}`);
+            if (input) {
+                input.dispatchEvent(new Event('input'));
+            } else {
+                const secInput = document.getElementById(`input-${event.id}-sec`);
+                if (secInput) secInput.dispatchEvent(new Event('input'));
+            }
+        });
+    }, 50);
+}
 
 function setupCategorySelectors() {
     const genderSelect = document.getElementById('genderSelect');
@@ -204,11 +287,13 @@ function setupCategorySelectors() {
         currentGender = genderSelect.value;
         setScoringGender(currentGender);
         renderEvents();
+        saveCurrentState();
     });
 
     ageSelect.addEventListener('change', () => {
         currentAge = ageSelect.value;
         renderEvents();
+        saveCurrentState();
     });
 }
 
@@ -222,6 +307,7 @@ function setupModeToggle() {
             indoorBtn.classList.add('active');
             outdoorBtn.classList.remove('active');
             renderEvents();
+            saveCurrentState();
         }
     });
 
@@ -231,6 +317,7 @@ function setupModeToggle() {
             outdoorBtn.classList.add('active');
             indoorBtn.classList.remove('active');
             renderEvents();
+            saveCurrentState();
         }
     });
 }
@@ -329,6 +416,7 @@ function setupInputListeners(event) {
                 const points = totalSeconds > 0 ? calculatePoints(event.id, totalSeconds) : 0;
                 document.getElementById(`points-${event.id}`).textContent = `${points} p`;
                 updateTotal();
+                saveCurrentState();
             };
 
             minInput.addEventListener('input', updateFn);
@@ -352,6 +440,7 @@ function setupInputListeners(event) {
                 const points = value ? calculatePoints(event.id, value) : 0;
                 document.getElementById(`points-${event.id}`).textContent = `${points} p`;
                 updateTotal();
+                saveCurrentState();
             });
         }
     }
@@ -394,6 +483,7 @@ function clearInputs() {
     });
 
     updateTotal();
+    saveCurrentState();
 }
 
 function getEventValues() {
