@@ -12,23 +12,27 @@
  */
 
 const SCORING_COEFFICIENTS = {
-    // Indoor events - 60m hurdles (76.2cm height for F15)
-    // Adjusted to match Swedish youth tables
-    '60mH': { a: 21.0572, b: 17.0, c: 1.81, type: 'track' },
+    // Official IAAF/World Athletics coefficients for women's combined events
 
-    // Outdoor events - 80m hurdles
+    // Indoor 60m hurdles
+    '60mH': { a: 20.0479, b: 17.00, c: 1.835, type: 'track' },
+
+    // Outdoor 100m hurdles (80m häck uses same formula structure)
     '80mH': { a: 9.23076, b: 26.7, c: 1.835, type: 'track' },
 
-    // Common events
-    // 600m: Swedish youth supplementary table (official coefficients)
+    // 600m: Swedish youth supplementary table
     '600m': { a: 0.264892, b: 176.6, c: 1.85, type: 'track' },
-    // High jump: input in meters, converted to cm for formula
+
+    // High jump (B in cm)
     'highJump': { a: 1.84523, b: 75.0, c: 1.348, type: 'field', unit: 'cm' },
-    // Long jump: input in meters, converted to cm for formula
-    'longJump': { a: 0.188807, b: 210, c: 1.41, type: 'field', unit: 'cm' },
-    // Shot put: input in meters
+
+    // Long jump (B in cm)
+    'longJump': { a: 0.188807, b: 210.0, c: 1.41, type: 'field', unit: 'cm' },
+
+    // Shot put (B in m)
     'shotPut': { a: 56.0211, b: 1.50, c: 1.05, type: 'field', unit: 'm' },
-    // Javelin: input in meters
+
+    // Javelin (B in m)
     'javelin': { a: 15.9803, b: 3.80, c: 1.04, type: 'field', unit: 'm' }
 };
 
