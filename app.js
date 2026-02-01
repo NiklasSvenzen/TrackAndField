@@ -112,8 +112,12 @@ function setupCategorySelectors() {
     const genderSelect = document.getElementById('genderSelect');
     const ageSelect = document.getElementById('ageSelect');
 
+    // Set initial scoring gender
+    setScoringGender(currentGender);
+
     genderSelect.addEventListener('change', () => {
         currentGender = genderSelect.value;
+        setScoringGender(currentGender);
         renderEvents();
     });
 
