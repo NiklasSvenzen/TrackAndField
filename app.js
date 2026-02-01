@@ -94,7 +94,7 @@ const translations = {
         infoTitle: 'Score Calculation',
         infoLink: 'IAAF Scoring Tables (PDF)',
         aboutTooltip: 'About the app',
-        infoTooltip: 'How are scores calculated?',
+        infoTooltip: 'How are the scores calculated?',
         langTooltip: 'Change language',
         // Event names
         '60m': '60m',
