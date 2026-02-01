@@ -34,7 +34,29 @@ const translations = {
         infoLink: 'IAAF Scoring Tables (PDF)',
         aboutTooltip: 'Om appen',
         infoTooltip: 'Hur beräknas dessa värden?',
-        langTooltip: 'Change language'
+        langTooltip: 'Change language',
+        // Event names
+        '60m': '60m',
+        '100m': '100m',
+        '200m': '200m',
+        '400m': '400m',
+        '600m': '600m',
+        '800m': '800m',
+        '1000m': '1000m',
+        '1500m': '1500m',
+        '60mH': '60m häck',
+        '80mH': '80m häck',
+        '100mH': '100m häck',
+        '110mH': '110m häck',
+        'highJump': 'Höjd',
+        'longJump': 'Längd',
+        'poleVault': 'Stav',
+        'shotPut': 'Kula',
+        'discus': 'Diskus',
+        'javelin': 'Spjut',
+        // Toast/formula text
+        'time': 'tid',
+        'formula': 'Formel'
     },
     en: {
         girls: 'Girls',
@@ -62,7 +84,29 @@ const translations = {
         infoLink: 'IAAF Scoring Tables (PDF)',
         aboutTooltip: 'About the app',
         infoTooltip: 'How are scores calculated?',
-        langTooltip: 'Byt språk'
+        langTooltip: 'Byt språk',
+        // Event names
+        '60m': '60m',
+        '100m': '100m',
+        '200m': '200m',
+        '400m': '400m',
+        '600m': '600m',
+        '800m': '800m',
+        '1000m': '1000m',
+        '1500m': '1500m',
+        '60mH': '60m hurdles',
+        '80mH': '80m hurdles',
+        '100mH': '100m hurdles',
+        '110mH': '110m hurdles',
+        'highJump': 'High Jump',
+        'longJump': 'Long Jump',
+        'poleVault': 'Pole Vault',
+        'shotPut': 'Shot Put',
+        'discus': 'Discus',
+        'javelin': 'Javelin',
+        // Toast/formula text
+        'time': 'time',
+        'formula': 'Formula'
     }
 };
 
@@ -106,10 +150,22 @@ function updateUILanguage() {
     ps[0].innerHTML = `<strong>${t('version')}:</strong> 1.0.0`;
     ps[1].innerHTML = `<strong>${t('developer')}:</strong> Eksporre Productions`;
     ps[2].innerHTML = `<strong>${t('feedback')}:</strong> <a href="mailto:niklas.svenzen@gmail.com">niklas.svenzen@gmail.com</a>`;
-    ps[3].innerHTML = `&copy; 2024 Eksporre Productions. ${t('copyright')}.`;
+    ps[3].innerHTML = `&copy; 2026 Eksporre Productions. ${t('copyright')}.`;
 
     // Update language button
     document.getElementById('langBtn').textContent = currentLang.toUpperCase();
+
+    // Update event names in cards
+    const events = getCurrentEvents();
+    events.forEach(event => {
+        const card = document.querySelector(`[data-event-id="${event.id}"]`);
+        if (card) {
+            const nameEl = card.querySelector('.event-name');
+            if (nameEl) {
+                nameEl.textContent = getEventDisplayName(event);
+            }
+        }
+    });
 
     // Reload saved results to update text
     loadSavedResults();
@@ -468,11 +524,24 @@ function renderEvents() {
     updateTotal();
 }
 
+function getEventDisplayName(event) {
+    // Get base translation for event type
+    const baseName = t(event.id) || event.name;
+
+    // Add weight/height info if present in original name (e.g., "Kula 3kg" -> "Shot Put 3kg")
+    const match = event.name.match(/\d+(\.\d+)?\s*(kg|cm|g|m)\b/i);
+    if (match && !baseName.includes(match[0])) {
+        return `${baseName} ${match[0]}`;
+    }
+    return baseName;
+}
+
 function createEventCard(event) {
     const card = document.createElement('div');
     card.className = 'event-card';
+    card.dataset.eventId = event.id;
     card.innerHTML = `
-        <span class="event-name">${event.name}</span>
+        <span class="event-name">${getEventDisplayName(event)}</span>
         <div class="event-input-row">
             ${createInputHTML(event)}
         </div>
@@ -835,21 +904,13 @@ function updateCoefficientsDisplay() {
     const coefficients = getCoefficients();
     const container = document.getElementById('coefficients-list');
 
-    const eventNames = {
-        '60m': '60m', '100m': '100m', '200m': '200m', '400m': '400m',
-        '600m': '600m', '800m': '800m', '1000m': '1000m', '1500m': '1500m',
-        '60mH': '60m häck', '80mH': '80m häck', '100mH': '100m häck', '110mH': '110m häck',
-        'highJump': 'Höjdhopp', 'longJump': 'Längdhopp', 'poleVault': 'Stavhopp',
-        'shotPut': 'Kula', 'discus': 'Diskus', 'javelin': 'Spjut'
-    };
-
     container.innerHTML = events.map(event => {
         const coef = coefficients[event.id];
         if (!coef) return '';
 
         let formula = '';
         if (coef.type === 'track') {
-            formula = `P = ${coef.a} × (${coef.b} - tid)^${coef.c}`;
+            formula = `P = ${coef.a} × (${coef.b} - ${t('time')})^${coef.c}`;
         } else if (coef.type === 'jump') {
             formula = `P = ${coef.a} × (cm - ${coef.b})^${coef.c}`;
         } else if (coef.type === 'throw') {
@@ -858,7 +919,7 @@ function updateCoefficientsDisplay() {
 
         return `
             <div class="coef-item">
-                <div class="coef-name">${eventNames[event.id] || event.name}</div>
+                <div class="coef-name">${t(event.id) || event.name}</div>
                 <div class="coef-formula">${formula}</div>
             </div>
         `;
@@ -868,7 +929,7 @@ function updateCoefficientsDisplay() {
 function getCalculationTooltip(eventId, performance, points) {
     const coefficients = getCoefficients();
     const coef = coefficients[eventId];
-    if (!coef || !performance) return `${points} poäng`;
+    if (!coef || !performance) return `${points} ${t('points')}`;
 
     let detail = '';
     if (coef.type === 'track') {
@@ -880,7 +941,7 @@ function getCalculationTooltip(eventId, performance, points) {
         detail = `${coef.a} × (${performance.toFixed(2)} - ${coef.b})^${coef.c}`;
     }
 
-    return `${points} poäng\n${detail}`;
+    return `${points} ${t('points')}\n${detail}`;
 }
 
 // Toast notification - positioned near element
