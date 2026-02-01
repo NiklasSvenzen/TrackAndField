@@ -152,8 +152,8 @@ function updateUILanguage() {
     ps[2].innerHTML = `<strong>${t('feedback')}:</strong> <a href="mailto:niklas.svenzen@gmail.com">niklas.svenzen@gmail.com</a>`;
     ps[3].innerHTML = `&copy; 2026 Eksporre Productions. ${t('copyright')}.`;
 
-    // Update language button
-    document.getElementById('langBtn').textContent = currentLang.toUpperCase();
+    // Update language button with flag
+    document.getElementById('langBtn').textContent = currentLang === 'sv' ? '🇸🇪' : '🇬🇧';
 
     // Update event names in cards
     const events = getCurrentEvents();
