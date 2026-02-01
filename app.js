@@ -70,13 +70,11 @@ function createEventCard(event) {
     const card = document.createElement('div');
     card.className = 'event-card';
     card.innerHTML = `
-        <div class="event-header">
-            <span class="event-name">${event.name}</span>
-            <span class="event-points" id="points-${event.id}">0 p</span>
-        </div>
+        <span class="event-name">${event.name}</span>
         <div class="event-input-row">
             ${createInputHTML(event)}
         </div>
+        <span class="event-points" id="points-${event.id}">0 p</span>
     `;
 
     // Setup input listeners after adding to DOM
@@ -276,6 +274,16 @@ function saveResult() {
 function loadSavedResults() {
     const saved = JSON.parse(localStorage.getItem('f15-results') || '[]');
     const container = document.getElementById('results-list');
+    const section = document.getElementById('saved-results');
+
+    // Setup collapse toggle on first load
+    if (!section.dataset.initialized) {
+        section.dataset.initialized = 'true';
+        section.classList.add('collapsed'); // Start collapsed
+        section.querySelector('h2').addEventListener('click', () => {
+            section.classList.toggle('collapsed');
+        });
+    }
 
     if (saved.length === 0) {
         container.innerHTML = '<div class="no-results">Inga sparade resultat</div>';
