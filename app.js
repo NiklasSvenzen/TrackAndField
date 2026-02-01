@@ -4,18 +4,18 @@
 
 // Event configurations
 const INDOOR_EVENTS = [
-    { id: '60mH', name: '60m häck', inputType: 'time', placeholder: 'ss.xx' },
-    { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: 'm' },
-    { id: 'shotPut', name: 'Kula (3kg)', inputType: 'distance', placeholder: 'm' },
-    { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: 'm' },
+    { id: '60mH', name: '60m häck', inputType: 'time', placeholder: '9.50' },
+    { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.46' },
+    { id: 'shotPut', name: 'Kula (3kg)', inputType: 'distance', placeholder: '8.50' },
+    { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '4.50' },
     { id: '600m', name: '600m', inputType: 'time', placeholder: 'm:ss.xx' }
 ];
 
 const OUTDOOR_EVENTS = [
-    { id: '80mH', name: '80m häck', inputType: 'time', placeholder: 'ss.xx' },
-    { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: 'm' },
-    { id: 'javelin', name: 'Spjut', inputType: 'distance', placeholder: 'm' },
-    { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: 'm' },
+    { id: '80mH', name: '80m häck', inputType: 'time', placeholder: '12.50' },
+    { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.46' },
+    { id: 'javelin', name: 'Spjut', inputType: 'distance', placeholder: '25.00' },
+    { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '4.50' },
     { id: '600m', name: '600m', inputType: 'time', placeholder: 'm:ss.xx' }
 ];
 
