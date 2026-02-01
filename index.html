@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>F15 Femkamp Poängräknare</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>F15 Femkamp</h1>
+            <div class="mode-toggle">
+                <button id="indoorBtn" class="mode-btn active">Inomhus</button>
+                <button id="outdoorBtn" class="mode-btn">Utomhus</button>
+            </div>
+        </header>
+
+        <main>
+            <div id="events-container"></div>
+
+            <div class="total-section">
+                <div class="total-label">Totalpoäng</div>
+                <div id="total-points" class="total-points">0</div>
+            </div>
+
+            <div class="actions">
+                <button id="clearBtn" class="action-btn clear-btn">Rensa</button>
+                <button id="saveBtn" class="action-btn save-btn">Spara resultat</button>
+            </div>
+        </main>
+
+        <section id="saved-results" class="saved-results">
+            <h2>Sparade resultat</h2>
+            <div id="results-list"></div>
+        </section>
+    </div>
+
+    <script src="scoring.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
