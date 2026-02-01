@@ -36,6 +36,9 @@ body {
     height: 50px;
     object-fit: cover;
     object-position: left center;
+    padding: 3px 0;
+    background: var(--lgif-red);
+    box-sizing: content-box;
 }
 
 header {
