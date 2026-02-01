@@ -12,18 +12,22 @@
  */
 
 const SCORING_COEFFICIENTS = {
-    // Indoor events
-    '60mH': { a: 20.5173, b: 15.5, c: 1.92, type: 'track' },
+    // Indoor events - 60m hurdles (76.2cm height for F15)
+    '60mH': { a: 20.5173, b: 17.0, c: 1.81, type: 'track' },
 
-    // Outdoor events
-    '80mH': { a: 7.399, b: 24, c: 1.835, type: 'track' },
+    // Outdoor events - 80m hurdles
+    '80mH': { a: 9.23076, b: 26.7, c: 1.835, type: 'track' },
 
     // Common events
     '600m': { a: 0.11193, b: 254, c: 1.88, type: 'track' },
-    'highJump': { a: 0.8465, b: 0.75, c: 1.42, type: 'field' },
-    'longJump': { a: 0.14354, b: 2.2, c: 1.4, type: 'field' },
-    'shotPut': { a: 51.39, b: 1.5, c: 1.05, type: 'field' },
-    'javelin': { a: 10.14, b: 7, c: 1.08, type: 'field' }
+    // High jump: input in meters, converted to cm for formula
+    'highJump': { a: 1.84523, b: 75.0, c: 1.348, type: 'field', unit: 'cm' },
+    // Long jump: input in meters, converted to cm for formula
+    'longJump': { a: 0.188807, b: 210, c: 1.41, type: 'field', unit: 'cm' },
+    // Shot put: input in meters
+    'shotPut': { a: 56.0211, b: 1.50, c: 1.05, type: 'field', unit: 'm' },
+    // Javelin: input in meters
+    'javelin': { a: 15.9803, b: 3.80, c: 1.04, type: 'field', unit: 'm' }
 };
 
 /**
@@ -47,7 +51,12 @@ function calculatePoints(event, performance) {
         points = coef.a * Math.pow(diff, coef.c);
     } else {
         // Field events: higher is better
-        const diff = performance - coef.b;
+        // Convert to cm if formula expects cm (high jump, long jump)
+        let perf = performance;
+        if (coef.unit === 'cm') {
+            perf = performance * 100; // meters to centimeters
+        }
+        const diff = perf - coef.b;
         if (diff <= 0) return 0;
         points = coef.a * Math.pow(diff, coef.c);
     }
