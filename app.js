@@ -8,7 +8,7 @@ const INDOOR_EVENTS = [
     { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.46' },
     { id: 'shotPut', name: 'Kula (3kg)', inputType: 'distance', placeholder: '8.50' },
     { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '4.50' },
-    { id: '600m', name: '600m', inputType: 'time', placeholder: 'm:ss.xx' }
+    { id: '600m', name: '600m', inputType: 'time', placeholder: '1:50' }
 ];
 
 const OUTDOOR_EVENTS = [
@@ -16,7 +16,7 @@ const OUTDOOR_EVENTS = [
     { id: 'highJump', name: 'Höjd', inputType: 'height', placeholder: '1.46' },
     { id: 'javelin', name: 'Spjut', inputType: 'distance', placeholder: '25.00' },
     { id: 'longJump', name: 'Längd', inputType: 'distance', placeholder: '4.50' },
-    { id: '600m', name: '600m', inputType: 'time', placeholder: 'm:ss.xx' }
+    { id: '600m', name: '600m', inputType: 'time', placeholder: '1:50' }
 ];
 
 let currentMode = 'indoor';
@@ -91,12 +91,12 @@ function createInputHTML(event) {
         return `
             <div class="input-group">
                 <input type="number" id="input-${event.id}-min" class="event-input"
-                       placeholder="m" min="0" max="9" inputmode="numeric">
+                       placeholder="1" min="0" max="9" inputmode="numeric">
                 <span class="event-unit">:</span>
             </div>
             <div class="input-group">
                 <input type="text" id="input-${event.id}-sec" class="event-input"
-                       placeholder="ss.xx" inputmode="decimal">
+                       placeholder="50.00" inputmode="decimal">
             </div>
         `;
     } else if (event.inputType === 'time') {
