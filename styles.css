@@ -43,13 +43,27 @@ header {
     margin-bottom: 6px;
 }
 
+/* App description */
+.app-description {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin: 8px 0 4px;
+    padding: 0 12px;
+}
+
 /* Category selectors */
 .category-selectors {
     display: flex;
-    gap: 6px;
-    justify-content: center;
-    padding: 6px 12px;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 12px;
     background: rgba(0,0,0,0.3);
+}
+
+.category-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
 }
 
 .category-select {

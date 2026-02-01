@@ -37,6 +37,8 @@ const translations = {
         aboutTooltip: 'Om appen',
         infoTooltip: 'Hur beräknas dessa värden?',
         langTooltip: 'Byt språk',
+        appDescription: 'Beräkna poäng för mångkamp i friidrott',
+        categoryLabel: 'Välj tävlingsklass:',
         // Event names
         '60m': '60m',
         '100m': '100m',
@@ -96,6 +98,8 @@ const translations = {
         aboutTooltip: 'About the app',
         infoTooltip: 'How are the scores calculated?',
         langTooltip: 'Change language',
+        appDescription: 'Calculate points for combined events in athletics',
+        categoryLabel: 'Select competition class:',
         // Event names
         '60m': '60m',
         '100m': '100m',
@@ -155,6 +159,8 @@ const translations = {
         aboutTooltip: 'Über die App',
         infoTooltip: 'Wie werden die Punkte berechnet?',
         langTooltip: 'Sprache ändern',
+        appDescription: 'Punkte für Mehrkampf in der Leichtathletik berechnen',
+        categoryLabel: 'Wettkampfklasse wählen:',
         // Event names
         '60m': '60m',
         '100m': '100m',
@@ -214,6 +220,8 @@ const translations = {
         aboutTooltip: "À propos de l'application",
         infoTooltip: 'Comment les points sont-ils calculés?',
         langTooltip: 'Changer de langue',
+        appDescription: 'Calculer les points pour les épreuves combinées en athlétisme',
+        categoryLabel: 'Choisir la catégorie:',
         // Event names
         '60m': '60m',
         '100m': '100m',
@@ -253,6 +261,10 @@ function t(key) {
 }
 
 function updateUILanguage() {
+    // Update app description and category label
+    document.getElementById('appDescription').textContent = t('appDescription');
+    document.getElementById('categoryLabel').textContent = t('categoryLabel');
+
     // Update category dropdown
     const categorySelect = document.getElementById('categorySelect');
     CATEGORIES.forEach((cat, i) => {
